@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+   <head>
+      <title>Getting Started: Handling Form Submission</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+   </head>
+   <body>
+      <div class="container">
+         <h1>Welcome</h1>
+         <p th:text="'Username: ' + ${user.username}" />
+         <p th:text="'Password: ' + ${user.password}" />
+         <p>
+         <div class="input-group mb-3">
+            <input class="form-control" type="text" id="searchBar" onkeyup="searchTable()" placeholder="Search for place..."/> 
+            <div class="input-group-append" style="padding-left:.5%;">
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#expenseModal">
+               Add Expense
+               </button>
+            </div>
+         </div>
+         <!-- Modal -->
+         <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog" aria-labelledby="expenseModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="expenseModalLabel">Modal title</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body">
+                     <form action="#" th:action="@{/expenses}" th:object="${expense}" method="post">
+                        <div class="form-group">
+                           <label>Category</label>
+                           <input type="text" class="form-control" th:field="*{category}" placeholder="Category" />
+                        </div>
+                        <div class="form-group">
+                           <label>Place</label>
+                           <input type="text" class="form-control" th:field="*{place}" placeholder="Place" />
+                        </div>
+                        <div class="form-group">
+                           <label>Amount</label>
+                           <input type="text" class="form-control" th:field="*{amount}" placeholder="0.00" />
+                        </div>
+                        <div class="form-group">
+                           <label>Date</label>
+                           <input type="date" class="form-control" th:field="*{date}" placeholder="mm/dd/yyyy" />
+                        </div>
+                        <div class="form-group">
+                           <label>Comments</label>
+                           <input type="text" class="form-control" th:field="*{comments}" placeholder="Comments" />
+                        </div>
+                        <div class="buttons" style="float: right; display: flex;">
+                           <p><input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Close"/></p>
+                           <p><input type="submit" class="btn btn-primary" style="margin-left:15%;" value="Submit"/></p>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </p>
+         <table id="expensesTable"class="table table-striped">
+            <thead>
+               <tr>
+                  <th scope="col">Category</th>
+                  <th scope="col">Place</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Comments</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr th:each="ex : ${user.expenses}">
+                  <td th:text="${ex.category}"/>
+                  <td th:text="${ex.place}"/>
+                  <td th:text="${ex.amount}"/>
+                  <td th:text="${ex.date}"/>
+                  <td th:text="${ex.comments}"/>
+               </tr>
+            </tbody>
+         </table>
+         <script>
+            function searchTable() {
+              // Declare variables
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("searchBar");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("expensesTable");
+              tr = table.getElementsByTagName("tr");
+            
+              // Loop through all table rows, and hide those who don't match the search query
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                  txtValue = td.textContent || td.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+              }
+            }
+         </script>
+      </div>
+   </body>
+</html>
