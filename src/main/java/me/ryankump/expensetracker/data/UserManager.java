@@ -33,5 +33,15 @@ public class UserManager {
 		
 		return false;
 	}
+	
+	public User getUser(String username, String password) {
+		for(User user : users) {
+			if(user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)) {
+				return user;
+			}
+		}
+		
+		return null;
+	}
 
 }

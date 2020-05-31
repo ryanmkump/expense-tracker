@@ -28,7 +28,7 @@ public class LoginController {
 	@PostMapping("/login")
 	public String loginSubmission(Model model, @ModelAttribute("login") User login, @ModelAttribute Status status, Expense expense){
 		if(ExpenseTracker.getUserManager().accountInfoCorrect(login.getUsername(), login.getPassword())) {
-			model.addAttribute("user", login);
+			model.addAttribute("user", ExpenseTracker.getUserManager().getUser(login.getUsername(), login.getPassword()));
 		return "expenses";
 		} else {
 			status.setStatus("PASSWORDERROR");
