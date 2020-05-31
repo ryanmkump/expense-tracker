@@ -1,21 +1,87 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://www.thymeleaf.org">
-<head>
-	<title>Getting Started: Handling Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-<body>
-	<div class="container">
-	<h1>Login</h1>
-	<div class="form-group">
-	<form action="#" th:action="@{/login}" th:object="${user}" method="post">
-    	<label>Username</label>
-    	<input type="text" th:field="*{username}" placeholder="Username" />
-    	<label>Password</label>
-        <input type="text" th:field="*{password}" placeholder="Password" />
-        <p><input type="submit" value="Submit"/></p>
-	</form>
-	</div>
-</body>
+   <head>
+      <title>Expense Tracker</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+   </head>
+   <body>
+      <div class="container">
+      <h1>Welcome</h1>
+      <p>
+      <div class="alert alert-success" role="alert" th:style="${status.status == 'SUCCESS' ? 'display:block' : 'display:none'}">
+         <p th:text="${status.message}" />
+      </div>
+      <div class="alert alert-danger" role="alert" th:style="${status.status == 'ERROR' ? 'display:block' : 'display:none'}">
+         <p th:text="${status.message}" />
+      </div>
+      <div class="alert alert-danger" role="alert" th:style="${status.status == 'PASSWORDERROR' ? 'display:block' : 'display:none'}">
+         <p th:text="${status.message}" />
+      </div>
+      </p>
+      <div class="d-flex flex-column flex-md-row">
+         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#createAccountModal" style="width:15%;">Create Account</button>
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" style="margin-left: 5%; width:15%;">Login</button>
+         <!-- Modal -->
+         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body">
+                     <form action="#" th:action="@{/login}" th:object="${user}" method="post">
+                        <div class="form-group">
+                           <label>Username</label>
+                           <input type="text" class="form-control" th:field="*{username}" placeholder="Username" />
+                        </div>
+                        <div class="form-group">
+                           <label>Password</label>
+                           <input type="text" class="form-control" th:field="*{password}" placeholder="Password" />
+                        </div>
+                        <div class="buttons" style="float: right; display: flex;">
+                           <p><input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Close"/></p>
+                           <p><input type="submit" class="btn btn-primary" style="margin-left:15%;" value="Submit"/></p>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog" aria-labelledby="createAccountModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="createAccountModal">Create Account</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body">
+                     <form action="#" th:action="@{/createAccount}" th:object="${user}" method="post">
+                        <div class="form-group">
+                           <label>Username</label>
+                           <input type="text" class="form-control" th:field="*{username}" placeholder="Username" />
+                        </div>
+                        <div class="form-group">
+                           <label>Password</label>
+                           <input type="text" class="form-control" th:field="*{password}" placeholder="Password" />
+                        </div>
+                        <div class="buttons" style="float: right; display: flex;">
+                           <p><input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Close"/></p>
+                           <p><input type="submit" class="btn btn-primary" style="margin-left:15%;" value="Submit"/></p>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
 </html>
